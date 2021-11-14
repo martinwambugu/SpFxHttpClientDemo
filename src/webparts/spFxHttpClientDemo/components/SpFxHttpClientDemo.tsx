@@ -29,7 +29,8 @@ export default class SpFxHttpClientDemo extends React.Component<
               {this.props.spListItems &&
                 this.props.spListItems.map((list) => (
                   <li key={list.Id} className={styles.item}>
-                    <strong></strong>
+                    <strong>Id:</strong>
+                    {list.Id}, <strong>Title:</strong> {list.Title}
                   </li>
                 ))}
             </ul>
@@ -38,4 +39,11 @@ export default class SpFxHttpClientDemo extends React.Component<
       </div>
     );
   }
+
+  private onGetListItemsClicked = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ): void => {
+    event.preventDefault();
+    this.props.onGetListItems();
+  };
 }
