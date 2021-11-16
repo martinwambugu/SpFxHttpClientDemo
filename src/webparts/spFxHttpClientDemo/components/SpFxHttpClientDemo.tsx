@@ -21,6 +21,27 @@ export default class SpFxHttpClientDemo extends React.Component<
               >
                 <span className={styles.label}>Get Countries</span>
               </a>
+              <a
+                href="#"
+                className={styles.button}
+                onClick={this.onAddListItemClicked}
+              >
+                <span className={styles.label}>Add List Item</span>
+              </a>
+              <a
+                href="#"
+                className={styles.button}
+                onClick={this.onUpdateListItemClicked}
+              >
+                <span className={styles.label}>Update List Item</span>
+              </a>
+              <a
+                href="#"
+                className={styles.button}
+                onClick={this.onDeleteListItemClicked}
+              >
+                <span className={styles.label}>Delete List Item</span>
+              </a>
             </div>
           </div>
 
@@ -45,5 +66,29 @@ export default class SpFxHttpClientDemo extends React.Component<
   ): void => {
     event.preventDefault();
     this.props.onGetListItems();
+  };
+
+  private onAddListItemClicked = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ): void => {
+    event.preventDefault();
+
+    this.props.onAddListItem();
+  };
+
+  private onUpdateListItemClicked = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ): void => {
+    event.preventDefault();
+
+    this.props.onUpdateListItem();
+  };
+
+  private onDeleteListItemClicked = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ): void => {
+    event.preventDefault();
+
+    this.props.onDeleteListItem();
   };
 }
