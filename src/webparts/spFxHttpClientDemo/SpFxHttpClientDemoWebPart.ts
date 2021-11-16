@@ -14,6 +14,8 @@ import { ISpFxHttpClientDemoProps } from "./components/ISpFxHttpClientDemoProps"
 import { SPHttpClient, SPHttpClientResponse } from "@microsoft/sp-http";
 import { ICountryListItem } from "../../models";
 
+import { Environment, EnvironmentType } from "@microsoft/sp-core-library";
+
 export interface ISpFxHttpClientDemoWebPartProps {
   description: string;
 }
@@ -34,14 +36,41 @@ export default class SpFxHttpClientDemoWebPart extends BaseClientSideWebPart<ISp
     ReactDom.render(element, this.domElement);
   }
 
+  private get _isSharePoint(): boolean {
+    return (
+      Environment.type === EnvironmentType.SharePoint ||
+      Environment.type === EnvironmentType.ClassicSharePoint
+    );
+  }
+
+  // private _onGetListItems = (): void => {
+  //   this._getListItems().then((response) => {
+  //     this._countries = response;
+  //     this.render();
+  //   });
+  // };
   private _onGetListItems = (): void => {
-    this._getListItems().then((response) => {
-      this._countries = response;
+    if (!this._isSharePoint) {
+      this._countries = [
+        { Id: "1", Title: "Country 1" },
+        { Id: "2", Title: "Country 2" },
+        { Id: "3", Title: "Country 3" },
+        { Id: "4", Title: "Country 4" },
+      ];
       this.render();
-    });
+    } else {
+      this._getListItems().then((response) => {
+        this._countries = response;
+        this.render();
+      });
+    }
   };
 
   private _onAddListItem = (): void => {
+    if (!this._isSharePoint) {
+      return;
+    }
+
     this._addListItem().then(() => {
       this._getListItems().then((response) => {
         this._countries = response;
@@ -51,6 +80,10 @@ export default class SpFxHttpClientDemoWebPart extends BaseClientSideWebPart<ISp
   };
 
   private _onUpdateListItem = (): void => {
+    if (!this._isSharePoint) {
+      return;
+    }
+
     this._updateListItem().then(() => {
       this._getListItems().then((response) => {
         this._countries = response;
@@ -60,6 +93,10 @@ export default class SpFxHttpClientDemoWebPart extends BaseClientSideWebPart<ISp
   };
 
   private _onDeleteListItem = (): void => {
+    if (!this._isSharePoint) {
+      return;
+    }
+
     this._deleteListItem().then(() => {
       this._getListItems().then((response) => {
         this._countries = response;
